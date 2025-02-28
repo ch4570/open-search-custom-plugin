@@ -26,13 +26,13 @@ import org.opensearch.index.common.parser.KoreanJamoParser;
  * under the License.
  */
 
-public final class JavacafeSpellFilter extends TokenFilter {
+public final class SpellFilter extends TokenFilter {
 
-    private KoreanJamoParser parser;
-    private CharTermAttribute termAtt;
+    private final KoreanJamoParser parser;
+    private final CharTermAttribute termAtt;
 
 
-    public JavacafeSpellFilter(TokenStream stream) {
+    public SpellFilter(TokenStream stream) {
         super(stream);
         this.parser = new KoreanJamoParser();
         this.termAtt = addAttribute(CharTermAttribute.class);
@@ -46,15 +46,13 @@ public final class JavacafeSpellFilter extends TokenFilter {
     public boolean incrementToken() throws IOException {
 
         if (input.incrementToken()) {
-            CharSequence parserdData = parser.parse(termAtt.toString());
+            final CharSequence parsedData = parser.parse(termAtt.toString());
             termAtt.setEmpty();
-            termAtt.append(parserdData);
+            termAtt.append(parsedData);
 
             return true;
         }
 
         return false;
     }
-
-
 }

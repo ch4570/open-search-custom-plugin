@@ -1,4 +1,4 @@
-package org.opensearch.index.analysis.eng2kor;
+package org.opensearch.index.analysis.engtokor;
 
 import java.io.IOException;
 

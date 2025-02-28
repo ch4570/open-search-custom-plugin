@@ -33,9 +33,6 @@ public class KoreanChosungParser extends AbstractKoreanParser {
     protected void processForOther(StringBuilder sb, char eachToken) {
         sb.append(eachToken);
     }
-
-
-
 }
 
 

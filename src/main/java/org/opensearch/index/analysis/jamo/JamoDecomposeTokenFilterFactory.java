@@ -1,4 +1,4 @@
-package org.opensearch.index.analysis.eng2kor;
+package org.opensearch.index.analysis.jamo;
 
 import org.apache.lucene.analysis.TokenStream;
 import org.opensearch.common.settings.Settings;
@@ -25,10 +25,10 @@ import org.opensearch.index.analysis.AbstractTokenFilterFactory;
  * under the License.
  */
 
-public class JavacafeEng2KorConvertFilterFactory extends AbstractTokenFilterFactory {
+public class JamoDecomposeTokenFilterFactory extends AbstractTokenFilterFactory {
 
 
-    public JavacafeEng2KorConvertFilterFactory(
+    public JamoDecomposeTokenFilterFactory(
             IndexSettings indexSettings,
             Environment env,
             String name,
@@ -37,11 +37,8 @@ public class JavacafeEng2KorConvertFilterFactory extends AbstractTokenFilterFact
         super(indexSettings, name, settings);
     }
 
-
     @Override
-    public TokenStream create(TokenStream tokenStream) {
-        return new ConvertEngToKoreanFilter(tokenStream);
+    public TokenStream create(TokenStream stream) {
+        return new JamoDecomposeTokenFilter(stream);
     }
-
-
 }

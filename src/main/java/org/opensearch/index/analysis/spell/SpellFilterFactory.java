@@ -1,4 +1,4 @@
-package org.opensearch.index.analysis.kor2eng;
+package org.opensearch.index.analysis.spell;
 
 import org.apache.lucene.analysis.TokenStream;
 import org.opensearch.common.settings.Settings;
@@ -25,10 +25,10 @@ import org.opensearch.index.analysis.AbstractTokenFilterFactory;
  * under the License.
  */
 
-public final class JavacafeKor2EngConvertFilterFactory extends AbstractTokenFilterFactory {
+public final class SpellFilterFactory extends AbstractTokenFilterFactory {
 
 
-    public JavacafeKor2EngConvertFilterFactory(
+    public SpellFilterFactory(
             IndexSettings indexSettings,
             Environment env,
             String name,
@@ -39,7 +39,7 @@ public final class JavacafeKor2EngConvertFilterFactory extends AbstractTokenFilt
 
 
     @Override
-    public TokenStream create(TokenStream tokenStream) {
-        return new ConvertKoreanToEngFilter(tokenStream);
+    public TokenStream create(TokenStream stream) {
+        return new SpellFilter(stream);
     }
 }

@@ -19,8 +19,11 @@ package org.opensearch.index.common.util;
  * under the License.
  */
 
-public class JamoUtil {
+public abstract class JamoUtil {
 
+    private JamoUtil() {
+        throw new IllegalArgumentException("Utility class");
+    }
 
     /**
      * 초성 (19자)<br>
@@ -92,10 +95,6 @@ public class JamoUtil {
      * 종성 빈값 유니코드
      */
     public static final char UNICODE_JONG_SUNG_EMPTY = 0x0000;
-
-
-
-
 }
 
 

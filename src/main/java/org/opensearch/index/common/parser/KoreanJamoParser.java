@@ -23,9 +23,6 @@ import org.opensearch.index.common.util.JamoUtil;
 
 public class KoreanJamoParser extends AbstractKoreanParser {
 
-
-
-
     @Override
     protected void processForKoreanChar(StringBuilder sb, char chosung, char jungsung, char jongsung) {
         sb.append(chosung).append(jungsung);
@@ -41,9 +38,6 @@ public class KoreanJamoParser extends AbstractKoreanParser {
     protected void processForOther(StringBuilder sb, char eachToken) {
         sb.append(eachToken);
     }
-
-
-
 }
 
 

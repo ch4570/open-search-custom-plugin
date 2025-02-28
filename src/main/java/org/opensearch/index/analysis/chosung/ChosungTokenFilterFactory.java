@@ -1,8 +1,8 @@
-package org.apache.solr.index.analysis.eng2kor;
+package org.opensearch.index.analysis.chosung;
 
 import org.apache.lucene.analysis.TokenStream;
-import org.opensearch.index.analysis.eng2kor.ConvertEngToKoreanFilter;
 import org.opensearch.common.settings.Settings;
+import org.opensearch.env.Environment;
 import org.opensearch.index.IndexSettings;
 import org.opensearch.index.analysis.AbstractTokenFilterFactory;
 
@@ -25,18 +25,20 @@ import org.opensearch.index.analysis.AbstractTokenFilterFactory;
  * under the License.
  */
 
-public final class ConvertEngToKoreanFilterFactory extends AbstractTokenFilterFactory {
+public class ChosungTokenFilterFactory extends AbstractTokenFilterFactory {
 
-    public ConvertEngToKoreanFilterFactory(
+
+    public ChosungTokenFilterFactory(
             IndexSettings indexSettings,
+            Environment env,
             String name,
-            Settings settings
-    ) {
+            Settings settings) {
         super(indexSettings, name, settings);
     }
 
+
     @Override
-    public TokenStream create(TokenStream tokenStream) {
-        return new ConvertEngToKoreanFilter(tokenStream);
+    public TokenStream create(TokenStream stream) {
+        return new ChosungTokenFilter(stream);
     }
 }

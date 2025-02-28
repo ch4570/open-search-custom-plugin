@@ -25,24 +25,20 @@ import org.opensearch.index.common.util.KeyboardUtil;
  */
 
 public final class KorToEngConverter {
-
-
     /**
      * 토큰을 한글 키보드 기준으로 변환한다.
      *
-     * @param token
-     * @return
      */
     public String convert(String token) {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
         // 문자열을 한글자씩 잘라서 처리한다.
         String word = token.trim();
         for (int index = 0; index < word.length(); index++) {
 
             // 처리 불가능한 글자는 그냥 넘긴다.
-            if (KeyboardUtil.IGNORE_CHAR.indexOf(word.substring(index, index + 1)) > -1) {
-                sb.append(word.substring(index, index + 1));
+            if (KeyboardUtil.IGNORE_CHAR.contains(word.substring(index, index + 1))) {
+                sb.append(word.charAt(index));
                 index++;
             }
             if (index >= word.length()) {
@@ -50,28 +46,28 @@ public final class KorToEngConverter {
             }
 
             try {
-                int init = word.charAt(index);
-                int initUnicode = init - JamoUtil.START_KOREA_UNICODE;
+                final int init = word.charAt(index);
+                final int initUnicode = init - JamoUtil.START_KOREA_UNICODE;
 
                 if (initUnicode > 0) {
                     /**
                      * 1글자로 조합형 한글이 들어올 경우 처리
                      */
-                    int cho  = initUnicode / 21 / 28;   // 0 ~ 18
-                    String strCho = getSameEngChar(CodeType.CHOSUNG, cho);
+                    final int cho  = initUnicode / 21 / 28;   // 0 ~ 18
+                    final String strCho = getSameEngChar(CodeType.CHOSUNG, cho);
                     if (StringUtils.isNotEmpty(strCho)) {
                         sb.append(strCho);
                     }
 
 
-                    int jung = initUnicode / 28 % 21;   // 0 ~ 20
-                    String strJung = getSameEngChar(CodeType.JUNGSUNG, jung);
+                    final int jung = initUnicode / 28 % 21;   // 0 ~ 20
+                    final String strJung = getSameEngChar(CodeType.JUNGSUNG, jung);
                     if (StringUtils.isNotEmpty(strJung)) {
                         sb.append(strJung);
                     }
 
-                    int jong = initUnicode % 28;        // 0 ~ 27
-                    String strJong = getSameEngChar(CodeType.JONGSUNG, jong);
+                    final int jong = initUnicode % 28;        // 0 ~ 27
+                    final String strJong = getSameEngChar(CodeType.JONGSUNG, jong);
                     if (StringUtils.isNotEmpty(strJong)) {
                         sb.append(strJong);
                     }
@@ -80,10 +76,10 @@ public final class KorToEngConverter {
                     /**
                      * 1글자로 자모가 들어올 경우 처리
                      */
-                    String subStr = String.valueOf((char) init);
-                    sb.append(getSameEngCharForJamo(subStr, 0));
+                    final String subStr = String.valueOf((char) init);
+                    sb.append(getSameEngCharForJamo(subStr));
                 }
-            } catch(Exception e) {}
+            } catch(Exception ignored) {}
         }
 
         return sb.toString();
@@ -93,25 +89,20 @@ public final class KorToEngConverter {
 
 
     private String getSameEngChar(CodeType type, int pos) {
-        switch (type) {
-            case CHOSUNG:
-                return KeyboardUtil.KEYBOARD_CHO_SUNG[pos];
-
-            case JUNGSUNG:
-                return KeyboardUtil.KEYBOARD_JUNG_SUNG[pos];
-
-            case JONGSUNG:
+        return switch (type) {
+            case CHOSUNG -> KeyboardUtil.KEYBOARD_CHO_SUNG[pos];
+            case JUNGSUNG -> KeyboardUtil.KEYBOARD_JUNG_SUNG[pos];
+            case JONGSUNG -> {
                 if ((pos - 1) > -1) {
-                    return KeyboardUtil.KEYBOARD_JONG_SUNG[pos - 1];
+                    yield KeyboardUtil.KEYBOARD_JONG_SUNG[pos - 1];
                 }
-                return "";
-        }
-
-        return "";
+                yield "";
+            }
+        };
     }
 
 
-    private String getSameEngCharForJamo(String key, int pos) {
+    private String getSameEngCharForJamo(String key) {
         for (int i=0; i<KeyboardUtil.KEYBOARD_KEY_KOR.length; i++) {
             if (KeyboardUtil.KEYBOARD_KEY_KOR[i].equals(key)) {
                 return KeyboardUtil.KEYBOARD_KEY_ENG[i];

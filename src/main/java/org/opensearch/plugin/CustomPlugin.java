@@ -1,13 +1,12 @@
 package org.opensearch.plugin;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import org.opensearch.index.analysis.chosung.JavacafeChosungTokenFilterFactory;
-import org.opensearch.index.analysis.eng2kor.JavacafeEng2KorConvertFilterFactory;
-import org.opensearch.index.analysis.jamo.JavacafeJamoTokenFilterFactory;
-import org.opensearch.index.analysis.kor2eng.JavacafeKor2EngConvertFilterFactory;
-import org.opensearch.index.analysis.spell.JavacafeSpellFilterFactory;
+import org.opensearch.index.analysis.chosung.ChosungTokenFilterFactory;
+import org.opensearch.index.analysis.engtokor.ConvertEngToKoreanFilterFactory;
+import org.opensearch.index.analysis.jamo.JamoDecomposeTokenFilterFactory;
+import org.opensearch.index.analysis.kortoeng.ConvertKorToEngFilterFactory;
+import org.opensearch.index.analysis.spell.SpellFilterFactory;
 import org.opensearch.index.analysis.TokenFilterFactory;
 import org.opensearch.indices.analysis.AnalysisModule;
 import org.opensearch.plugins.AnalysisPlugin;
@@ -36,24 +35,18 @@ public class CustomPlugin extends Plugin implements AnalysisPlugin {
 
     @Override
     public Map<String, AnalysisModule.AnalysisProvider<TokenFilterFactory>> getTokenFilters() {
-        Map<String, AnalysisModule.AnalysisProvider<TokenFilterFactory>> extra = new HashMap<>();
-
-        // (1) 한글 자모 분석 필터
-        extra.put("javacafe_jamo", JavacafeJamoTokenFilterFactory::new);
-
-        // (2) 한글 초성 분석 필터
-        extra.put("javacafe_chosung", JavacafeChosungTokenFilterFactory::new);
-
-        // (3) 영한 오타 변환 필터
-        extra.put("javacafe_eng2kor", JavacafeEng2KorConvertFilterFactory::new);
-
-        // (4) 한영 오타 변환 필터
-        extra.put("javacafe_kor2eng", JavacafeKor2EngConvertFilterFactory::new);
-
-        // (5) 한글 스펠링 체크 필터
-        extra.put("javacafe_spell", JavacafeSpellFilterFactory::new);
-
-        return extra;
+        return Map.of(
+                // (1) 한글 자모 분석 필터
+                "kor-jamo-filter", JamoDecomposeTokenFilterFactory::new,
+                // (2) 한글 초성 분석 필터
+                "kor-chosung-filter", ChosungTokenFilterFactory::new,
+                // (3) 영한 오타 변환 필터
+                "convert-eng-to-kor-filter", ConvertEngToKoreanFilterFactory::new,
+                // (4) 한영 오타 변환 필터
+                "convert-kor-to-eng-filter", ConvertKorToEngFilterFactory::new,
+                // (5) 한글 스펠링 체크 필터
+                "kor-spell-check-filter", SpellFilterFactory::new
+        );
     }
 }
 
