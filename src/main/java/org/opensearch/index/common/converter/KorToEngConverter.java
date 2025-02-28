@@ -37,6 +37,7 @@ public final class KorToEngConverter {
         for (int index = 0; index < word.length(); index++) {
             // 이중모음 분해 처리
             String currentChar = String.valueOf(word.charAt(index));
+
             if (KeyboardUtil.DOUBLE_JAMO_MAP.containsKey(currentChar)) {
                 String decomposed = KeyboardUtil.DOUBLE_JAMO_MAP.get(currentChar);
 
@@ -44,7 +45,6 @@ public final class KorToEngConverter {
                     String jamo = String.valueOf(decomposed.charAt(j));
                     sb.append(getSameEngCharForJamo(jamo));
                 }
-                continue;
             }
 
             // 처리 불가능한 글자는 그냥 넘긴다.
