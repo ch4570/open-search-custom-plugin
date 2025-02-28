@@ -35,6 +35,17 @@ public final class KorToEngConverter {
         // 문자열을 한글자씩 잘라서 처리한다.
         String word = token.trim();
         for (int index = 0; index < word.length(); index++) {
+            // 이중모음 분해 처리
+            String currentChar = String.valueOf(word.charAt(index));
+            if (KeyboardUtil.DOUBLE_JAMO_MAP.containsKey(currentChar)) {
+                String decomposed = KeyboardUtil.DOUBLE_JAMO_MAP.get(currentChar);
+
+                for (int j = 0; j < decomposed.length(); j++) {
+                    String jamo = String.valueOf(decomposed.charAt(j));
+                    sb.append(getSameEngCharForJamo(jamo));
+                }
+                continue;
+            }
 
             // 처리 불가능한 글자는 그냥 넘긴다.
             if (KeyboardUtil.IGNORE_CHAR.contains(word.substring(index, index + 1))) {
@@ -84,9 +95,6 @@ public final class KorToEngConverter {
 
         return sb.toString();
     }
-
-
-
 
     private String getSameEngChar(CodeType type, int pos) {
         return switch (type) {

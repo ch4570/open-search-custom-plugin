@@ -80,6 +80,17 @@ public abstract class KeyboardUtil {
             "ㅆ", "ㅒ", "ㅖ"
     };
 
+    public static final Map<String, String> DOUBLE_JAMO_MAP = Map.of(
+            "ㅘ", "ㅗㅏ",
+            "ㅙ", "ㅗㅐ",
+            "ㅚ", "ㅗㅣ",
+            "ㅝ", "ㅜㅓ",
+            "ㅞ", "ㅜㅔ",
+            "ㅟ", "ㅜㅣ",
+            "ㅢ", "ㅡㅣ"
+    );
+
+
 
     /**
      * 초성 정보를 제공한다.
