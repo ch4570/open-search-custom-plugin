@@ -12,6 +12,8 @@ import org.opensearch.index.analysis.spell.SpellFilter;
 
 import java.io.IOException;
 
+import static org.apache.lucene.analysis.Analyzer.PER_FIELD_REUSE_STRATEGY;
+
 public abstract class AnalyzerFactory {
 
     private AnalyzerFactory() {
@@ -19,7 +21,7 @@ public abstract class AnalyzerFactory {
     }
 
     public static Analyzer createAnalyzer(AnalyzerType type) {
-        return new Analyzer(Analyzer.PER_FIELD_REUSE_STRATEGY) {
+        return new Analyzer(PER_FIELD_REUSE_STRATEGY) {
             @Override
             protected TokenStreamComponents createComponents(String fieldName) {
                 try (Tokenizer tokenizer = new KeywordTokenizer()) {
