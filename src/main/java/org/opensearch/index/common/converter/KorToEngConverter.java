@@ -50,10 +50,7 @@ public final class KorToEngConverter {
             // 처리 불가능한 글자는 그냥 넘긴다.
             if (KeyboardUtil.IGNORE_CHAR.contains(word.substring(index, index + 1))) {
                 sb.append(word.charAt(index));
-                index++;
-            }
-            if (index >= word.length()) {
-                break;
+                continue;
             }
 
             try {
