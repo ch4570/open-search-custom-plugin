@@ -27,7 +27,7 @@ public abstract class AnalyzerFactory {
                 try (Tokenizer tokenizer = new KeywordTokenizer()) {
                     TokenStream tokenFilter = switch (type) {
                         case CHOSUNG_TOKEN -> new ChosungTokenFilter(tokenizer);
-                        case JAMO_DEOMPOSE -> new JamoDecomposeTokenFilter(tokenizer);
+                        case JAMO_DECOMPOSE -> new JamoDecomposeTokenFilter(tokenizer);
                         case CONVERT_ENG_TO_KOREAN -> new ConvertEngToKoreanFilter(tokenizer);
                         case CONVERT_KOREAN_TO_ENG -> new ConvertKoreanToEngFilter(tokenizer);
                         case SPELL_CHECK -> new SpellFilter(tokenizer);

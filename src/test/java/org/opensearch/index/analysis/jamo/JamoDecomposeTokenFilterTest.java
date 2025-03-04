@@ -10,7 +10,7 @@ import static org.opensearch.index.analysis.utils.AnalyzerType.*;
 
 public class JamoDecomposeTokenFilterTest {
 
-    private final Analyzer analyzer = createAnalyzer(JAMO_DEOMPOSE);
+    private final Analyzer analyzer = createAnalyzer(JAMO_DECOMPOSE);
 
     @Test
     public void jamoDecomposeTokenFilterTest() {

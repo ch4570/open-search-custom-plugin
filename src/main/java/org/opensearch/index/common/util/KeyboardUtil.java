@@ -99,8 +99,8 @@ public abstract class KeyboardUtil {
      * - 한 자로 이루어진 초성코드만 존재한다.
      */
     public static Map<String, Integer> getInfoForChoSung(int index, String word) {
-        final int code = makeUnicodeIndex(CodeType.CHOSUNG, word.substring(index, index + 1));
-        final int idx = index + 1;
+        int code = makeUnicodeIndex(CodeType.CHOSUNG, word.substring(index, index + 1));
+        int idx = index + 1;
 
         return Map.of(
                 "code", code,
