@@ -37,15 +37,15 @@ public class CustomPlugin extends Plugin implements AnalysisPlugin {
     public Map<String, AnalysisModule.AnalysisProvider<TokenFilterFactory>> getTokenFilters() {
         return Map.of(
                 // (1) 한글 자모 분석 필터
-                "kor-jamo-filter", JamoDecomposeTokenFilterFactory::new,
+                "kor_jamo_filter", JamoDecomposeTokenFilterFactory::new,
                 // (2) 한글 초성 분석 필터
-                "kor-chosung-filter", ChosungTokenFilterFactory::new,
+                "kor_chosung_filter", ChosungTokenFilterFactory::new,
                 // (3) 영한 오타 변환 필터
-                "convert-eng-to-kor-filter", ConvertEngToKoreanFilterFactory::new,
+                "convert_eng_to_kor_filter", ConvertEngToKoreanFilterFactory::new,
                 // (4) 한영 오타 변환 필터
-                "convert-kor-to-eng-filter", ConvertKorToEngFilterFactory::new,
+                "convert_kor_to_eng_filter", ConvertKorToEngFilterFactory::new,
                 // (5) 한글 스펠링 체크 필터
-                "kor-spell-check-filter", SpellFilterFactory::new
+                "kor_spell_check_filter", SpellFilterFactory::new
         );
     }
 }
