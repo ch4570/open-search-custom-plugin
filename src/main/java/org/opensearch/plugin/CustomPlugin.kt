@@ -48,7 +48,7 @@ class CustomPlugin : Plugin(), AnalysisPlugin {
                 ConvertKorToEngFilterFactory(indexSettings, environment, name, settings)
             },
             // (5) 한글 스펠링 체크 필터
-            "kor_jamo_filter" to AnalysisProvider { indexSettings, environment, name, settings ->
+            "kor_spell_check_filter" to AnalysisProvider { indexSettings, environment, name, settings ->
                 SpellFilterFactory(indexSettings, environment, name, settings)
             },
 
