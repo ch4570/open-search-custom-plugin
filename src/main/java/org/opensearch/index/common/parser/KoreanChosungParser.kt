@@ -1,10 +1,4 @@
-package org.opensearch.index.analysis.jamo;
-
-import org.apache.lucene.analysis.TokenStream;
-import org.opensearch.common.settings.Settings;
-import org.opensearch.env.Environment;
-import org.opensearch.index.IndexSettings;
-import org.opensearch.index.analysis.AbstractTokenFilterFactory;
+package org.opensearch.index.common.parser
 
 /*
  * Licensed to Elasticsearch B.V. under one or more contributor
@@ -25,20 +19,15 @@ import org.opensearch.index.analysis.AbstractTokenFilterFactory;
  * under the License.
  */
 
-public class JamoDecomposeTokenFilterFactory extends AbstractTokenFilterFactory {
-
-
-    public JamoDecomposeTokenFilterFactory(
-            IndexSettings indexSettings,
-            Environment env,
-            String name,
-            Settings settings
-    ) {
-        super(indexSettings, name, settings);
+class KoreanChosungParser : AbstractKoreanParser() {
+    override fun processForKoreanChar(sb: StringBuilder, chosung: Char, jungsung: Char, jongsung: Char) {
+        sb.append(chosung)
     }
 
-    @Override
-    public TokenStream create(TokenStream stream) {
-        return new JamoDecomposeTokenFilter(stream);
+
+    override fun processForOther(sb: StringBuilder, eachToken: Char) {
+        sb.append(eachToken)
     }
 }
+
+

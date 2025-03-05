@@ -1,10 +1,10 @@
-package org.opensearch.index.analysis.kortoeng;
+package org.opensearch.index.analysis.chosung
 
-import org.apache.lucene.analysis.TokenStream;
-import org.opensearch.common.settings.Settings;
-import org.opensearch.env.Environment;
-import org.opensearch.index.IndexSettings;
-import org.opensearch.index.analysis.AbstractTokenFilterFactory;
+import org.apache.lucene.analysis.TokenStream
+import org.opensearch.common.settings.Settings
+import org.opensearch.env.Environment
+import org.opensearch.index.IndexSettings
+import org.opensearch.index.analysis.AbstractTokenFilterFactory
 
 /*
  * Licensed to Elasticsearch B.V. under one or more contributor
@@ -24,22 +24,12 @@ import org.opensearch.index.analysis.AbstractTokenFilterFactory;
  * specific language governing permissions and limitations
  * under the License.
  */
+class ChosungTokenFilterFactory(
+    indexSettings: IndexSettings,
+    val env: Environment,
+    name: String,
+    settings: Settings,
+) : AbstractTokenFilterFactory(indexSettings, name, settings) {
 
-public final class ConvertKorToEngFilterFactory extends AbstractTokenFilterFactory {
-
-
-    public ConvertKorToEngFilterFactory(
-            IndexSettings indexSettings,
-            Environment env,
-            String name,
-            Settings settings
-    ) {
-        super(indexSettings, name, settings);
-    }
-
-
-    @Override
-    public TokenStream create(TokenStream tokenStream) {
-        return new ConvertKoreanToEngFilter(tokenStream);
-    }
+    override fun create(tokenStream: TokenStream): TokenStream = ChosungTokenFilter(tokenStream)
 }

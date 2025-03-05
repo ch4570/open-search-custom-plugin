@@ -16,6 +16,7 @@ public class ConvertEngToKoreanFilterTest {
     @Test
     public void convertEngToKoreanFilter() {
         assertEquals("삼성전자", analyze("tkatjdwjswk", analyzer));
+        assertEquals("삼성@!$전@자", analyze("tkatjd@!$wjs@wk", analyzer));
         assertEquals("기획서 안내", analyze("rlghlrtj dksso", analyzer));
         assertEquals("우리의 소원은 통일", analyze("dnfldml thdnjsdms xhddlf", analyzer));
     }

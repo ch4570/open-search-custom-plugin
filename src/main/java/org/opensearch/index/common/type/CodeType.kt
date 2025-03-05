@@ -1,6 +1,4 @@
-package org.opensearch.index.common.parser;
-
-/*
+package org.opensearch.index.common.type /*
  * Licensed to Elasticsearch B.V. under one or more contributor
  * license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright
@@ -19,20 +17,19 @@ package org.opensearch.index.common.parser;
  * under the License.
  */
 
-public class KoreanChosungParser extends AbstractKoreanParser {
+enum class CodeType {
+    /**
+     * 초성
+     */
+    CHOSUNG,
 
+    /**
+     * 중성
+     */
+    JUNGSUNG,
 
-    @Override
-    protected void processForKoreanChar(StringBuilder sb, char chosung, char jungsung, char jongsung) {
-        sb.append(chosung);
-    }
-
-
-
-    @Override
-    protected void processForOther(StringBuilder sb, char eachToken) {
-        sb.append(eachToken);
-    }
+    /**
+     * 종성
+     */
+    JONGSUNG
 }
-
-
