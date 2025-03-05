@@ -22,6 +22,7 @@ loggerUsageCheck.enabled = false
 // No need to validate pom, as we do not upload to maven/sonatype
 validateNebulaPom.enabled = false
 
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
@@ -45,6 +46,7 @@ tasks.register("preparePluginPathDirs") {
 testingConventions.enabled = false
 loggerUsageCheck.enabled = false
 validateNebulaPom.enabled = false
+forbiddenApisTest.enabled = false
 
 buildscript {
     ext.kotlin_version = '1.9.23'
@@ -86,10 +88,6 @@ configurations.configureEach {
         force 'org.apache.logging.log4j:log4j-core:2.23.1'
         force 'org.apache.logging.log4j:log4j-api:2.23.1'
     }
-}
-
-tasks.named("forbiddenApisTest").configure {
-    enabled = false
 }
 
 test {
