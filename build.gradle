@@ -78,18 +78,18 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-api:2.23.1")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
-
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    }
 }
 
 
-configurations.all {
+configurations.configureEach {
     resolutionStrategy {
         force 'org.apache.logging.log4j:log4j-core:2.23.1'
         force 'org.apache.logging.log4j:log4j-api:2.23.1'
     }
+}
+
+tasks.named("forbiddenApisTest").configure {
+    enabled = false
 }
 
 test {

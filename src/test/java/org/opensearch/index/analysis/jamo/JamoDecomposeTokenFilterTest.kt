@@ -1,12 +1,9 @@
-package org.opensearch.plugin
+package org.opensearch.index.analysis.jamo
 
-import org.opensearch.common.settings.Settings
-import org.opensearch.env.Environment
-import org.opensearch.index.IndexSettings
-import org.opensearch.index.analysis.TokenFilterFactory
-import org.opensearch.indices.analysis.AnalysisModule.AnalysisProvider
-import kotlin.reflect.KClass
-import kotlin.reflect.full.primaryConstructor
+import org.junit.Assert.assertEquals
+import org.junit.Test
+import org.opensearch.index.analysis.utils.AnalyzeUtils.analyze
+import org.opensearch.index.analysis.utils.AnalyzerFactory.createAnalyzer
 
 /*
 * Licensed to Elasticsearch B.V. under one or more contributor
@@ -26,12 +23,14 @@ import kotlin.reflect.full.primaryConstructor
 * specific language governing permissions and limitations
 * under the License.
 */
-object AnalysisProviderUtils {
+class JamoDecomposeTokenFilterTest {
+    private val analyzer = createAnalyzer(::JamoDecomposeTokenFilter)
 
-    fun <T : TokenFilterFactory> createProvider(
-        constructor: (IndexSettings, Environment, String, Settings) -> T
-    ): AnalysisProvider<TokenFilterFactory> =
-        AnalysisProvider { indexSettings, environment, name, settings ->
-            constructor(indexSettings, environment, name, settings)
-        }
+    @Test
+    fun jamoDecomposeTokenFilterTest() {
+        assertEquals("ㅇㅗㅍㅡㄴㅅㅓㅊㅣ", analyze("오픈서치", analyzer))
+        assertEquals("ㅌㅗㄴㅣㅇㅘㅇㅐㄴㄷㅣ", analyze("토니와앤디", analyzer))
+        assertEquals("ㅋㅜㅍㅏㅇ", analyze("쿠팡", analyzer))
+        assertEquals("ㅇㅗㅍㅡㄴ@#@#ㅅㅓㅊㅣ", analyze("오픈@#@#서치", analyzer))
+    }
 }

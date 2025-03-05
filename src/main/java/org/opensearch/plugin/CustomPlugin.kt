@@ -32,18 +32,15 @@ class CustomPlugin : Plugin(), AnalysisPlugin {
     override fun getTokenFilters(): Map<String, AnalysisProvider<TokenFilterFactory>> =
         mapOf(
             // (1) 한글 자모 분석 필터
-            "kor_jamo_filter" to AnalysisProviderUtils.createProvider(JamoDecomposeTokenFilterFactory::class),
+            "kor_jamo_filter" to AnalysisProviderUtils.createProvider(::JamoDecomposeTokenFilterFactory),
             // (2) 한글 초성 분석 필터
-            "kor_chosung_filter" to AnalysisProviderUtils.createProvider(ChosungTokenFilterFactory::class),
+            "kor_chosung_filter" to AnalysisProviderUtils.createProvider(::ChosungTokenFilterFactory),
             // (3) 영한 오타 변환 필터
-            "convert_eng_to_kor_filter" to AnalysisProviderUtils.createProvider(ConvertEngToKoreanFilterFactory::class),
+            "convert_eng_to_kor_filter" to AnalysisProviderUtils.createProvider(::ConvertEngToKoreanFilterFactory),
             // (4) 한영 오타 변환 필터
-            "convert_kor_to_eng_filter" to AnalysisProviderUtils.createProvider(ConvertKorToEngFilterFactory::class),
+            "convert_kor_to_eng_filter" to AnalysisProviderUtils.createProvider(::ConvertKorToEngFilterFactory),
             // (5) 한글 스펠링 체크 필터
-            "kor_spell_check_filter" to AnalysisProviderUtils.createProvider(SpellFilterFactory::class),
+            "kor_spell_check_filter" to AnalysisProviderUtils.createProvider(::SpellFilterFactory),
 
         )
     }
-
-
-

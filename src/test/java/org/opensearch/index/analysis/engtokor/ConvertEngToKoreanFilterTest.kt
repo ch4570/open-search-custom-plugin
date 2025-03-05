@@ -1,12 +1,9 @@
-package org.opensearch.plugin
+package org.opensearch.index.analysis.engtokor
 
-import org.opensearch.common.settings.Settings
-import org.opensearch.env.Environment
-import org.opensearch.index.IndexSettings
-import org.opensearch.index.analysis.TokenFilterFactory
-import org.opensearch.indices.analysis.AnalysisModule.AnalysisProvider
-import kotlin.reflect.KClass
-import kotlin.reflect.full.primaryConstructor
+import org.junit.Assert.assertEquals
+import org.junit.Test
+import org.opensearch.index.analysis.utils.AnalyzeUtils.analyze
+import org.opensearch.index.analysis.utils.AnalyzerFactory.createAnalyzer
 
 /*
 * Licensed to Elasticsearch B.V. under one or more contributor
@@ -26,12 +23,14 @@ import kotlin.reflect.full.primaryConstructor
 * specific language governing permissions and limitations
 * under the License.
 */
-object AnalysisProviderUtils {
+class ConvertEngToKoreanFilterTest {
+    private val analyzer = createAnalyzer(::ConvertEngToKoreanFilter)
 
-    fun <T : TokenFilterFactory> createProvider(
-        constructor: (IndexSettings, Environment, String, Settings) -> T
-    ): AnalysisProvider<TokenFilterFactory> =
-        AnalysisProvider { indexSettings, environment, name, settings ->
-            constructor(indexSettings, environment, name, settings)
-        }
+    @Test
+    fun convertEngToKoreanFilter() {
+        assertEquals("삼성전자", analyze("tkatjdwjswk", analyzer))
+        assertEquals("삼성@!\$전@자", analyze("tkatjd@!\$wjs@wk", analyzer))
+        assertEquals("기획서 안내", analyze("rlghlrtj dksso", analyzer))
+        assertEquals("우리의 소원은 통일", analyze("dnfldml thdnjsdms xhddlf", analyzer))
+    }
 }

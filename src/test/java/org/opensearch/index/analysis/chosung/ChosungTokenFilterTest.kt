@@ -1,12 +1,9 @@
-package org.opensearch.plugin
+package org.opensearch.index.analysis.chosung
 
-import org.opensearch.common.settings.Settings
-import org.opensearch.env.Environment
-import org.opensearch.index.IndexSettings
-import org.opensearch.index.analysis.TokenFilterFactory
-import org.opensearch.indices.analysis.AnalysisModule.AnalysisProvider
-import kotlin.reflect.KClass
-import kotlin.reflect.full.primaryConstructor
+import org.junit.Assert.assertEquals
+import org.junit.Test
+import org.opensearch.index.analysis.utils.AnalyzeUtils
+import org.opensearch.index.analysis.utils.AnalyzerFactory.createAnalyzer
 
 /*
 * Licensed to Elasticsearch B.V. under one or more contributor
@@ -26,12 +23,14 @@ import kotlin.reflect.full.primaryConstructor
 * specific language governing permissions and limitations
 * under the License.
 */
-object AnalysisProviderUtils {
+class ChosungTokenFilterTest {
+    private val analyzer = createAnalyzer(::ChosungTokenFilter)
 
-    fun <T : TokenFilterFactory> createProvider(
-        constructor: (IndexSettings, Environment, String, Settings) -> T
-    ): AnalysisProvider<TokenFilterFactory> =
-        AnalysisProvider { indexSettings, environment, name, settings ->
-            constructor(indexSettings, environment, name, settings)
-        }
+    @Test
+    fun testChosungTokenFilter() {
+        assertEquals("ㅇㅍ ㅅㅊ", AnalyzeUtils.analyze("오픈 서치", analyzer))
+        assertEquals("ㅋㅍ ㅍㄹㅇ", AnalyzeUtils.analyze("쿠팡 플레이", analyzer))
+        assertEquals("[ㅋㅍ]-ㅍㄹㅇ!@#!#ㄱㅈ ㅇㄹ", AnalyzeUtils.analyze("[쿠팡]-플레이!@#!#결제 알림", analyzer))
+        assertEquals("ㅋㅍㅍㄹㅇ", AnalyzeUtils.analyze("ㅋㅍ프레ㅇ", analyzer))
+    }
 }

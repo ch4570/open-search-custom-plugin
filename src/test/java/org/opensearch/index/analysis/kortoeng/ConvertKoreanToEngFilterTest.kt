@@ -1,12 +1,10 @@
-package org.opensearch.plugin
+package org.opensearch.index.analysis.kortoeng
 
-import org.opensearch.common.settings.Settings
-import org.opensearch.env.Environment
-import org.opensearch.index.IndexSettings
-import org.opensearch.index.analysis.TokenFilterFactory
-import org.opensearch.indices.analysis.AnalysisModule.AnalysisProvider
-import kotlin.reflect.KClass
-import kotlin.reflect.full.primaryConstructor
+import org.junit.Assert.assertEquals
+import org.junit.Test
+import org.opensearch.index.analysis.utils.AnalyzeUtils.analyze
+import org.opensearch.index.analysis.utils.AnalyzerFactory.createAnalyzer
+
 
 /*
 * Licensed to Elasticsearch B.V. under one or more contributor
@@ -26,12 +24,14 @@ import kotlin.reflect.full.primaryConstructor
 * specific language governing permissions and limitations
 * under the License.
 */
-object AnalysisProviderUtils {
+class ConvertKoreanToEngFilterTest {
+    private val analyzer = createAnalyzer(::ConvertKoreanToEngFilter)
 
-    fun <T : TokenFilterFactory> createProvider(
-        constructor: (IndexSettings, Environment, String, Settings) -> T
-    ): AnalysisProvider<TokenFilterFactory> =
-        AnalysisProvider { indexSettings, environment, name, settings ->
-            constructor(indexSettings, environment, name, settings)
-        }
+    @Test
+    fun convertKoreanToEngFilterTest() {
+        assertEquals("iphone", analyze("ㅑㅔㅙㅜㄷ", analyzer))
+        assertEquals("mlOps", analyze("ㅢㅒㅔㄴ", analyzer))
+        assertEquals("coupang", analyze("채ㅕㅔ뭏", analyzer))
+        assertEquals("neo!# ple", analyze("ㅜ대!# ㅔㅣㄷ", analyzer))
+    }
 }
