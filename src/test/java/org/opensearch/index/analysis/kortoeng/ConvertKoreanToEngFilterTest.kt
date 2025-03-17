@@ -29,6 +29,7 @@ class ConvertKoreanToEngFilterTest {
 
     @Test
     fun convertKoreanToEngFilterTest() {
+        println(analyze("ㅖㅐㅐㅔ", analyzer))
         assertEquals("iphone", analyze("ㅑㅔㅙㅜㄷ", analyzer))
         assertEquals("mlOps", analyze("ㅢㅒㅔㄴ", analyzer))
         assertEquals("coupang", analyze("채ㅕㅔ뭏", analyzer))

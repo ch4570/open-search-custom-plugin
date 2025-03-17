@@ -31,7 +31,7 @@ java {
     sourceCompatibility = JavaVersion.VERSION_21
 }
 
-version = '1.0.0'
+version = '2.19.0'
 
 tasks.register("preparePluginPathDirs") {
     mustRunAfter clean
@@ -51,7 +51,7 @@ forbiddenApisTest.enabled = false
 buildscript {
     ext.kotlin_version = '1.9.23'
     ext {
-        opensearch_version = System.getProperty("opensearch.version", "2.17.0")
+        opensearch_version = System.getProperty("opensearch.version", "2.19.0")
     }
 
     repositories {
