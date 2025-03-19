@@ -10,7 +10,7 @@ def pathToPlugin = 'org.opensearch.plugin'
 
 opensearchplugin {
     name 'opensearch-custom-plugin'
-    description 'Custom OpenSearch custom plugin for educational purposes'
+    description 'OpenSearch search plugin for robust Korean support'
     classname 'org.opensearch.plugin.CustomPlugin'
     licenseFile rootProject.file('LICENSE.txt')
     noticeFile rootProject.file('NOTICE.txt')
@@ -22,24 +22,25 @@ loggerUsageCheck.enabled = false
 // No need to validate pom, as we do not upload to maven/sonatype
 validateNebulaPom.enabled = false
 
-
 java {
+    def javaVersion = "21"
+
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(javaVersion)
     }
-    targetCompatibility = JavaVersion.VERSION_21
-    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = javaVersion
+    sourceCompatibility = javaVersion
 }
 
 version = '2.19.0'
 
 tasks.register("preparePluginPathDirs") {
     mustRunAfter clean
-    doLast {
-        def newPath = pathToPlugin.replace(".", "/")
-        mkdir "src/main/java/$packagePath/$newPath"
-        mkdir "src/test/java/$packagePath/$newPath"
-    }
+            doLast {
+                def newPath = pathToPlugin.replace(".", "/")
+                mkdir "src/main/java/$packagePath/$newPath"
+                mkdir "src/test/java/$packagePath/$newPath"
+            }
 }
 
 // disabling some unnecessary validations for this plugin
