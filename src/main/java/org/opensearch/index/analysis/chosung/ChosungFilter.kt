@@ -1,10 +1,9 @@
 package org.opensearch.index.analysis.chosung
 
+import org.apache.lucene.analysis.TokenFilter
 import org.apache.lucene.analysis.TokenStream
-import org.opensearch.common.settings.Settings
-import org.opensearch.env.Environment
-import org.opensearch.index.IndexSettings
-import org.opensearch.index.analysis.AbstractTokenFilterFactory
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute
+import org.opensearch.index.common.parser.KoreanChosungParser
 
 /*
  * Licensed to Elasticsearch B.V. under one or more contributor
@@ -24,12 +23,24 @@ import org.opensearch.index.analysis.AbstractTokenFilterFactory
  * specific language governing permissions and limitations
  * under the License.
  */
-class ChosungTokenFilterFactory(
-    indexSettings: IndexSettings,
-    val env: Environment,
-    name: String,
-    settings: Settings,
-) : AbstractTokenFilterFactory(indexSettings, name, settings) {
+class ChosungFilter(
+    tokenStream: TokenStream,
+) : TokenFilter(tokenStream) {
 
-    override fun create(tokenStream: TokenStream): TokenStream = ChosungTokenFilter(tokenStream)
+    private val parser = KoreanChosungParser()
+    private val termAttribute = addAttribute(CharTermAttribute::class.java)
+
+    /*
+    *  한글 초성 Parser를 이용하여 토큰을 파싱하여 Term을 구함
+    */
+    override fun incrementToken(): Boolean =
+        if (input.incrementToken()) {
+            val parsedDate = parser.parse(termAttribute.toString())
+            termAttribute.setEmpty()
+            termAttribute.append(parsedDate)
+
+            true
+        } else {
+            false
+        }
 }

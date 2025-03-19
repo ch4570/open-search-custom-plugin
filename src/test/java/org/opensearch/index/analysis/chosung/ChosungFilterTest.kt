@@ -23,8 +23,8 @@ import org.opensearch.index.analysis.utils.AnalyzerFactory.createAnalyzer
 * specific language governing permissions and limitations
 * under the License.
 */
-class ChosungTokenFilterTest {
-    private val analyzer = createAnalyzer(::ChosungTokenFilter)
+class ChosungFilterTest {
+    private val analyzer = createAnalyzer(::ChosungFilter)
 
     @Test
     fun testChosungTokenFilter() {

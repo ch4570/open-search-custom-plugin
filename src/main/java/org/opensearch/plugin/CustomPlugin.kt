@@ -1,9 +1,9 @@
 package org.opensearch.plugin
 
 import org.opensearch.index.analysis.TokenFilterFactory
-import org.opensearch.index.analysis.chosung.ChosungTokenFilterFactory
+import org.opensearch.index.analysis.chosung.ChosungFilterFactory
 import org.opensearch.index.analysis.engtokor.ConvertEngToKoreanFilterFactory
-import org.opensearch.index.analysis.jamo.JamoDecomposeTokenFilterFactory
+import org.opensearch.index.analysis.jamo.JamoDecomposeFilterFactory
 import org.opensearch.index.analysis.kortoeng.ConvertKorToEngFilterFactory
 import org.opensearch.index.analysis.spell.SpellFilterFactory
 import org.opensearch.indices.analysis.AnalysisModule.AnalysisProvider
@@ -32,9 +32,9 @@ class CustomPlugin : Plugin(), AnalysisPlugin {
     override fun getTokenFilters(): Map<String, AnalysisProvider<TokenFilterFactory>> =
         mapOf(
             // (1) 한글 자모 분석 필터
-            "kor_jamo_filter" to AnalysisProviderUtils.createProvider(::JamoDecomposeTokenFilterFactory),
+            "kor_jamo_filter" to AnalysisProviderUtils.createProvider(::JamoDecomposeFilterFactory),
             // (2) 한글 초성 분석 필터
-            "kor_chosung_filter" to AnalysisProviderUtils.createProvider(::ChosungTokenFilterFactory),
+            "kor_chosung_filter" to AnalysisProviderUtils.createProvider(::ChosungFilterFactory),
             // (3) 영한 오타 변환 필터
             "convert_eng_to_kor_filter" to AnalysisProviderUtils.createProvider(::ConvertEngToKoreanFilterFactory),
             // (4) 한영 오타 변환 필터

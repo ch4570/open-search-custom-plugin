@@ -23,8 +23,8 @@ import org.opensearch.index.analysis.utils.AnalyzerFactory.createAnalyzer
 * specific language governing permissions and limitations
 * under the License.
 */
-class JamoDecomposeTokenFilterTest {
-    private val analyzer = createAnalyzer(::JamoDecomposeTokenFilter)
+class JamoDecomposeFilterTest {
+    private val analyzer = createAnalyzer(::JamoDecomposeFilter)
 
     @Test
     fun jamoDecomposeTokenFilterTest() {

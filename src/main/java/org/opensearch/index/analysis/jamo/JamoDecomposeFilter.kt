@@ -1,10 +1,9 @@
 package org.opensearch.index.analysis.jamo
 
+import org.apache.lucene.analysis.TokenFilter
 import org.apache.lucene.analysis.TokenStream
-import org.opensearch.common.settings.Settings
-import org.opensearch.env.Environment
-import org.opensearch.index.IndexSettings
-import org.opensearch.index.analysis.AbstractTokenFilterFactory
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute
+import org.opensearch.index.common.parser.KoreanJamoParser
 
 /*
 * Licensed to Elasticsearch B.V. under one or more contributor
@@ -24,13 +23,25 @@ import org.opensearch.index.analysis.AbstractTokenFilterFactory
 * specific language governing permissions and limitations
 * under the License.
 */
-class JamoDecomposeTokenFilterFactory(
-    indexSettings: IndexSettings,
-    val env: Environment,
-    name: String,
-    settings: Settings,
-) : AbstractTokenFilterFactory(indexSettings, name, settings) {
+class JamoDecomposeFilter(
+    tokenStream: TokenStream,
+) : TokenFilter(tokenStream) {
 
-    override fun create(tokenStream: TokenStream): TokenStream = JamoDecomposeTokenFilter(tokenStream)
+    private val parser = KoreanJamoParser()
+    private val termAttribute = addAttribute(CharTermAttribute::class.java)
 
+    /**
+     * 한글 자모 Parser를 이용하여 토큰을 파싱하고 Term을 구한다.
+     */
+    override fun incrementToken(): Boolean =
+        if (input.incrementToken()) {
+            val parsedData = parser.parse(termAttribute.toString())
+            termAttribute.setEmpty()
+            termAttribute.append(parsedData)
+
+            true
+        } else {
+            false
+        }
 }
+
